@@ -53,26 +53,42 @@ final class AppState {
 
     // MARK: - Computed
 
+    /// Only considers the latest pipeline per project+branch to avoid
+    /// stale failures overshadowing a newer passing pipeline.
+    private var latestStatuses: [PipelineStatus] {
+        var seen: [String: TrackedPipeline] = [:]
+        for tracked in trackedPipelines {
+            let key = "\(tracked.projectID)/\(tracked.pipeline.ref)"
+            let existing = seen[key]
+            if existing == nil
+                || (tracked.pipeline.updatedAt ?? .distantPast) > (existing!.pipeline.updatedAt ?? .distantPast)
+            {
+                seen[key] = tracked
+            }
+        }
+        return seen.values.map(\.pipeline.status)
+    }
+
     var menuBarIcon: String {
         if !isConfigured { return "gear.badge.questionmark" }
         if !isConnected { return "network.slash" }
 
-        let active = trackedPipelines.map(\.pipeline.status)
-        if active.contains(.failed) { return "xmark.circle.fill" }
-        if active.contains(.running) { return "play.circle.fill" }
-        if active.contains(.pending) || active.contains(.created) { return "clock.fill" }
-        if active.contains(.success) { return "checkmark.circle.fill" }
+        let statuses = latestStatuses
+        if statuses.contains(.failed) { return "xmark.circle.fill" }
+        if statuses.contains(.running) { return "play.circle.fill" }
+        if statuses.contains(.pending) || statuses.contains(.created) { return "clock.fill" }
+        if statuses.contains(.success) { return "checkmark.circle.fill" }
         return "circle.fill"
     }
 
     var menuBarColor: Color {
         if !isConfigured || !isConnected { return .secondary }
 
-        let active = trackedPipelines.map(\.pipeline.status)
-        if active.contains(.failed) { return .red }
-        if active.contains(.running) { return .blue }
-        if active.contains(.pending) || active.contains(.created) { return .orange }
-        if active.contains(.success) { return .green }
+        let statuses = latestStatuses
+        if statuses.contains(.failed) { return .red }
+        if statuses.contains(.running) { return .blue }
+        if statuses.contains(.pending) || statuses.contains(.created) { return .orange }
+        if statuses.contains(.success) { return .green }
         return .secondary
     }
 
