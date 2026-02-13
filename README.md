@@ -4,7 +4,6 @@ A native macOS menu bar app that watches your GitLab pipelines and notifies you 
 
 > This project was built entirely with AI assistance.
 
-![screenshot](screenshot.png)
 
 ## Features
 
