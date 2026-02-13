@@ -24,17 +24,6 @@ A native macOS menu bar app that watches your GitLab pipelines and notifies you 
 
 ## Getting Started
 
-### Option 1: Download the pre-built app
-
-Head to the [Releases page](../../releases), download the latest `PipeWatch-vX.Y.Z.zip`, unzip it, and drag `Pipeline Notifications.app` to your Applications folder.
-
-> **Note:** The app is not code-signed. macOS may show "Pipeline Notifications is damaged and can't be opened." To fix this, run:
-> ```bash
-> xattr -cr /Applications/Pipeline\ Notifications.app
-> ```
-
-### Option 2: Build from source
-
 ```bash
 # Clone the repo
 git clone https://github.com/manea-eugen/pipe-watch.git
@@ -43,6 +32,11 @@ cd pipe-watch
 # Build and run
 ./build.sh Debug --run
 ```
+
+> **Note:** The app is not code-signed. If macOS shows "Pipeline Notifications is damaged and can't be opened", run:
+> ```bash
+> xattr -cr ~/Library/Developer/Xcode/DerivedData/PipelineNotifications-*/Build/Products/Debug/Pipeline\ Notifications.app
+> ```
 
 The app will appear in your menu bar. Click the icon, open **Settings** (gear icon), and enter:
 
@@ -177,32 +171,6 @@ The `build.sh` script handles project generation and compilation:
 ```
 
 The script runs `xcodegen generate` first, then `xcodebuild`. The compiled `.app` ends up in Xcode's DerivedData directory.
-
-## CI/CD
-
-The project uses GitHub Actions for continuous integration and automatic releases.
-
-### Build Workflow
-
-Every push to `main` and every pull request triggers a build on a macOS 15 runner to verify the project compiles. The built app is uploaded as a downloadable artifact on each run.
-
-### Automatic Releases
-
-Every push to `main` automatically creates a versioned GitHub Release with a downloadable `PipeWatch-vX.Y.Z.zip`. No manual tagging needed.
-
-Versioning follows [Conventional Commits](https://www.conventionalcommits.org/) and is determined from your commit messages since the last tag:
-
-| Commit prefix | Version bump | Example |
-|---------------|-------------|---------|
-| `feat!:` or `BREAKING CHANGE` | **Major** (v1.0.0 -> v2.0.0) | `feat!: redesign settings UI` |
-| `feat:` | **Minor** (v1.0.0 -> v1.1.0) | `feat: add dark mode support` |
-| `fix:`, `ci:`, `chore:`, etc. | **Patch** (v1.0.0 -> v1.0.1) | `fix: correct polling interval` |
-
-Releases are published to the [Releases page](../../releases) where users can download the latest `.zip` containing the app.
-
-### Download
-
-You can download the latest build from the [Releases page](../../releases). Unzip and drag `Pipeline Notifications.app` to your Applications folder.
 
 ## Contributing
 
