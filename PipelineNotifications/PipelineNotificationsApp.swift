@@ -1,4 +1,5 @@
 import SwiftUI
+import ServiceManagement
 
 @main
 struct PipelineNotificationsApp: App {
@@ -41,5 +42,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         notificationManager.requestPermission()
         monitor.start()
+        promptLaunchAtLoginIfNeeded()
+    }
+
+    private func promptLaunchAtLoginIfNeeded() {
+        let hasPrompted = UserDefaults.standard.bool(forKey: "hasPromptedLaunchAtLogin")
+        guard !hasPrompted else { return }
+
+        UserDefaults.standard.set(true, forKey: "hasPromptedLaunchAtLogin")
+
+        let alert = NSAlert()
+        alert.messageText = "Launch at Login?"
+        alert.informativeText = "Would you like PipeWatch to start automatically when you log in?"
+        alert.addButton(withTitle: "Yes")
+        alert.addButton(withTitle: "No")
+        alert.alertStyle = .informational
+
+        let response = alert.runModal()
+        if response == .alertFirstButtonReturn {
+            appState.launchAtLogin = true
+        }
     }
 }

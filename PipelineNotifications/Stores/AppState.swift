@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import ServiceManagement
 
 @Observable
 @MainActor
@@ -20,6 +21,20 @@ final class AppState {
 
     var notifyOnFailure: Bool {
         didSet { UserDefaults.standard.set(notifyOnFailure, forKey: "notifyOnFailure") }
+    }
+
+    var launchAtLogin: Bool {
+        didSet {
+            do {
+                if launchAtLogin {
+                    try SMAppService.mainApp.register()
+                } else {
+                    try SMAppService.mainApp.unregister()
+                }
+            } catch {
+                NSLog("[AppState] Failed to update login item: %@", error.localizedDescription)
+            }
+        }
     }
 
     // MARK: - Runtime State
@@ -99,6 +114,7 @@ final class AppState {
         self.pollingInterval = defaults.double(forKey: "pollingInterval").nonZero ?? 30.0
         self.notifyOnSuccess = defaults.object(forKey: "notifyOnSuccess") as? Bool ?? true
         self.notifyOnFailure = defaults.object(forKey: "notifyOnFailure") as? Bool ?? true
+        self.launchAtLogin = SMAppService.mainApp.status == .enabled
     }
 }
 

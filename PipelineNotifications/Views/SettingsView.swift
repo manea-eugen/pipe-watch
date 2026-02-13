@@ -102,6 +102,18 @@ struct SettingsView: View {
                             .controlSize(.small)
                     }
 
+                    // Launch at login
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("System")
+                            .font(.system(size: 11, weight: .medium))
+                            .foregroundStyle(.secondary)
+
+                        Toggle("Launch at login", isOn: $appState.launchAtLogin)
+                            .font(.system(size: 12))
+                            .toggleStyle(.switch)
+                            .controlSize(.small)
+                    }
+
                     Divider()
 
                     // Save button
