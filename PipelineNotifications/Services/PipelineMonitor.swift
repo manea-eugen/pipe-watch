@@ -123,13 +123,8 @@ final class PipelineMonitor {
                 }
             }
 
-            // 4. Sort by priority then recency
-            allTracked.sort { lhs, rhs in
-                if lhs.pipeline.status.priority != rhs.pipeline.status.priority {
-                    return lhs.pipeline.status.priority > rhs.pipeline.status.priority
-                }
-                return (lhs.pipeline.updatedAt ?? .distantPast) > (rhs.pipeline.updatedAt ?? .distantPast)
-            }
+            // 4. Sort by newest pipeline first (highest ID = most recent)
+            allTracked.sort { $0.pipeline.id > $1.pipeline.id }
 
             // 5. Detect state transitions and notify
             for tracked in allTracked {
@@ -147,14 +142,19 @@ final class PipelineMonitor {
             let activeIDs = Set(allTracked.map(\.pipeline.id))
             knownStatuses = knownStatuses.filter { activeIDs.contains($0.key) }
 
-            // 7. Update state
+            // 7. Debug: log what we're tracking
+            for tracked in allTracked {
+                NSLog("[PipelineMonitor] %@/%@ #%d -> %@", tracked.projectName, tracked.pipeline.ref, tracked.pipeline.id, tracked.pipeline.status.rawValue)
+            }
+
+            // 8. Update state
             appState.trackedPipelines = allTracked
             appState.isConnected = true
             appState.lastError = nil
             appState.lastRefresh = Date()
 
         } catch {
-            print("[PipelineMonitor] Poll error: \(error)")
+            NSLog("[PipelineMonitor] Poll error: %@", error.localizedDescription)
             appState.isConnected = false
             appState.lastError = error.localizedDescription
         }
