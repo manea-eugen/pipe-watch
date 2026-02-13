@@ -13,15 +13,9 @@ struct PipelineRowView: View {
 
             // Pipeline info
             VStack(alignment: .leading, spacing: 2) {
-                HStack(spacing: 4) {
-                    Text(tracked.projectName)
-                        .font(.system(size: 12, weight: .semibold))
-                        .lineLimit(1)
-
-                    Text("#\(tracked.pipeline.id)")
-                        .font(.system(size: 11, design: .monospaced))
-                        .foregroundStyle(.secondary)
-                }
+                Text(tracked.projectName)
+                    .font(.system(size: 12, weight: .semibold))
+                    .lineLimit(1)
 
                 HStack(spacing: 6) {
                     // Branch
