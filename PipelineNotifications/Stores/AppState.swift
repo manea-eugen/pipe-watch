@@ -55,14 +55,13 @@ final class AppState {
 
     /// Only considers the latest pipeline per project+branch to avoid
     /// stale failures overshadowing a newer passing pipeline.
+    /// Uses the highest pipeline ID (most recently created) as the source of truth.
     private var latestStatuses: [PipelineStatus] {
         var seen: [String: TrackedPipeline] = [:]
         for tracked in trackedPipelines {
             let key = "\(tracked.projectID)/\(tracked.pipeline.ref)"
             let existing = seen[key]
-            if existing == nil
-                || (tracked.pipeline.updatedAt ?? .distantPast) > (existing!.pipeline.updatedAt ?? .distantPast)
-            {
+            if existing == nil || tracked.pipeline.id > existing!.pipeline.id {
                 seen[key] = tracked
             }
         }
