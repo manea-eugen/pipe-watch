@@ -123,10 +123,45 @@ final class PipelineMonitor {
                 }
             }
 
-            // 4. Sort by newest pipeline first (highest ID = most recent)
+            // 4. For branches where my latest pipeline failed, check if
+            //    someone else has since fixed it (newer pipeline by anyone)
+            var latestByRef: [String: TrackedPipeline] = [:]
+            for tracked in allTracked {
+                let key = "\(tracked.projectID)/\(tracked.pipeline.ref)"
+                if latestByRef[key] == nil || tracked.pipeline.id > latestByRef[key]!.pipeline.id {
+                    latestByRef[key] = tracked
+                }
+            }
+
+            let failedRefs = latestByRef.values.filter { $0.pipeline.status == .failed }
+            if !failedRefs.isEmpty {
+                await withTaskGroup(of: TrackedPipeline?.self) { group in
+                    for tracked in failedRefs {
+                        group.addTask {
+                            guard let latest = try? await service.fetchLatestPipeline(
+                                projectID: tracked.projectID,
+                                ref: tracked.pipeline.ref
+                            ) else { return nil }
+                            // Only add if it's newer than our failed pipeline
+                            guard latest.id > tracked.pipeline.id else { return nil }
+                            return TrackedPipeline(
+                                pipeline: latest,
+                                projectName: tracked.projectName,
+                                projectID: tracked.projectID
+                            )
+                        }
+                    }
+                    for await result in group {
+                        guard let fixed = result else { continue }
+                        allTracked.append(fixed)
+                    }
+                }
+            }
+
+            // 5. Sort by newest pipeline first (highest ID = most recent)
             allTracked.sort { $0.pipeline.id > $1.pipeline.id }
 
-            // 5. Detect state transitions and notify
+            // 6. Detect state transitions and notify
             for tracked in allTracked {
                 let pid = tracked.pipeline.id
                 let newStatus = tracked.pipeline.status
@@ -138,14 +173,9 @@ final class PipelineMonitor {
                 knownStatuses[pid] = newStatus
             }
 
-            // 6. Clean up old entries from knownStatuses
+            // 7. Clean up old entries from knownStatuses
             let activeIDs = Set(allTracked.map(\.pipeline.id))
             knownStatuses = knownStatuses.filter { activeIDs.contains($0.key) }
-
-            // 7. Debug: log what we're tracking
-            for tracked in allTracked {
-                NSLog("[PipelineMonitor] %@/%@ #%d -> %@", tracked.projectName, tracked.pipeline.ref, tracked.pipeline.id, tracked.pipeline.status.rawValue)
-            }
 
             // 8. Update state
             appState.trackedPipelines = allTracked
