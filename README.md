@@ -29,6 +29,11 @@ A native macOS menu bar app that watches your GitLab pipelines and notifies you 
 
 Head to the [Releases page](../../releases), download the latest `PipeWatch-vX.Y.Z.zip`, unzip it, and drag `Pipeline Notifications.app` to your Applications folder.
 
+> **Note:** The app is not code-signed. macOS may show "Pipeline Notifications is damaged and can't be opened." To fix this, run:
+> ```bash
+> xattr -cr /Applications/Pipeline\ Notifications.app
+> ```
+
 ### Option 2: Build from source
 
 ```bash
