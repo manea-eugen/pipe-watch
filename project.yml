@@ -1,0 +1,38 @@
+name: PipeWatch
+options:
+  bundleIdPrefix: ai.pipewatch
+  deploymentTarget:
+    macOS: "14.0"
+  xcodeVersion: "16.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+    ENABLE_USER_SCRIPT_SANDBOXING: false
+
+targets:
+  PipeWatch:
+    type: application
+    platform: macOS
+    sources:
+      - PipeWatch
+    settings:
+      base:
+        INFOPLIST_FILE: Info.plist
+        CODE_SIGN_ENTITLEMENTS: PipeWatch.entitlements
+        PRODUCT_BUNDLE_IDENTIFIER: ai.pipewatch.app
+        PRODUCT_NAME: PipeWatch
+        MARKETING_VERSION: "1.0.0"
+        CURRENT_PROJECT_VERSION: 1
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        GENERATE_INFOPLIST_FILE: false
+        SWIFT_STRICT_CONCURRENCY: complete
+        CODE_SIGN_IDENTITY: Apple Development
+        CODE_SIGNING_REQUIRED: true
+        CODE_SIGNING_ALLOWED: true
+        CODE_SIGN_STYLE: Automatic
+
+    resources:
+      - Assets.xcassets

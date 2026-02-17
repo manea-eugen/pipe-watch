@@ -1,0 +1,383 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		06A9B35243B5850C515B5E39 /* Pipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = B023F573A8749EFBBD5982A8 /* Pipeline.swift */; };
+		3CA868D31A688AAC8BF8BA1B /* GitLabProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C0FF60F6DC3216B63D7487 /* GitLabProject.swift */; };
+		50C29ADE76566223D1ED2481 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CC54D36E0DACE2F7E3551 /* KeychainHelper.swift */; };
+		780129DAD9EA1463A84B5BB5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA38957BA6C71D1BDE011D3 /* SettingsView.swift */; };
+		85CD77449DBF252E89A613AF /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5BE7264AB376EC3B48CB11 /* AppState.swift */; };
+		977EBB2F4DAF95A519DCC82E /* GitLabService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E718B19031B68FABEDEE6327 /* GitLabService.swift */; };
+		A670E151EE6685A6C7910F39 /* PipelineListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8330ACCC2FC3B2B0D807B62 /* PipelineListView.swift */; };
+		B0A42FBAA5922B10AAD8CB41 /* PipelineRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D91262CEE80AEE3E1256F54 /* PipelineRowView.swift */; };
+		BF29FCD23C7EF88654FD0685 /* PipeWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EFCF9CD437DF244CE10F98 /* PipeWatchApp.swift */; };
+		F103D298CD6935FE33586A94 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EDCE0E9A89DFADBAEA3348 /* NotificationManager.swift */; };
+		F6CDFF361BB7E58A3EE92F99 /* PipelineMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20B5FC5095D3D7040ED093D /* PipelineMonitor.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		278CC54D36E0DACE2F7E3551 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
+		31EFCF9CD437DF244CE10F98 /* PipeWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipeWatchApp.swift; sourceTree = "<group>"; };
+		5D91262CEE80AEE3E1256F54 /* PipelineRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineRowView.swift; sourceTree = "<group>"; };
+		62C0FF60F6DC3216B63D7487 /* GitLabProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitLabProject.swift; sourceTree = "<group>"; };
+		96EDCE0E9A89DFADBAEA3348 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		A20B5FC5095D3D7040ED093D /* PipelineMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineMonitor.swift; sourceTree = "<group>"; };
+		B023F573A8749EFBBD5982A8 /* Pipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pipeline.swift; sourceTree = "<group>"; };
+		C54EC79ECC94755107378082 /* PipeWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PipeWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE5BE7264AB376EC3B48CB11 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		E718B19031B68FABEDEE6327 /* GitLabService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitLabService.swift; sourceTree = "<group>"; };
+		F8330ACCC2FC3B2B0D807B62 /* PipelineListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineListView.swift; sourceTree = "<group>"; };
+		FFA38957BA6C71D1BDE011D3 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		11241150694CBB30D73E2D3C /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				278CC54D36E0DACE2F7E3551 /* KeychainHelper.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		1D90076EE9527A7018D09AE8 /* PipeWatch */ = {
+			isa = PBXGroup;
+			children = (
+				31EFCF9CD437DF244CE10F98 /* PipeWatchApp.swift */,
+				DF11ACEA63CCA4EB4749ACA0 /* Models */,
+				DF096C00520FB5C5793CEB19 /* Services */,
+				8B7C233FC9BEE1553F3A6E26 /* Stores */,
+				11241150694CBB30D73E2D3C /* Utilities */,
+				CB913979C8798EB18BF63B40 /* Views */,
+			);
+			path = PipeWatch;
+			sourceTree = "<group>";
+		};
+		7C39509811D81A785D784A46 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C54EC79ECC94755107378082 /* PipeWatch.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8B7C233FC9BEE1553F3A6E26 /* Stores */ = {
+			isa = PBXGroup;
+			children = (
+				CE5BE7264AB376EC3B48CB11 /* AppState.swift */,
+			);
+			path = Stores;
+			sourceTree = "<group>";
+		};
+		B7501F745B61E0422E6F9AF0 = {
+			isa = PBXGroup;
+			children = (
+				1D90076EE9527A7018D09AE8 /* PipeWatch */,
+				7C39509811D81A785D784A46 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CB913979C8798EB18BF63B40 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F8330ACCC2FC3B2B0D807B62 /* PipelineListView.swift */,
+				5D91262CEE80AEE3E1256F54 /* PipelineRowView.swift */,
+				FFA38957BA6C71D1BDE011D3 /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		DF096C00520FB5C5793CEB19 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				E718B19031B68FABEDEE6327 /* GitLabService.swift */,
+				96EDCE0E9A89DFADBAEA3348 /* NotificationManager.swift */,
+				A20B5FC5095D3D7040ED093D /* PipelineMonitor.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		DF11ACEA63CCA4EB4749ACA0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				62C0FF60F6DC3216B63D7487 /* GitLabProject.swift */,
+				B023F573A8749EFBBD5982A8 /* Pipeline.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6777A32A6FDD6BCCA1AC670F /* PipeWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 803FE95137126B4BE9FC4157 /* Build configuration list for PBXNativeTarget "PipeWatch" */;
+			buildPhases = (
+				B0BC897E8572545AB3364B26 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PipeWatch;
+			packageProductDependencies = (
+			);
+			productName = PipeWatch;
+			productReference = C54EC79ECC94755107378082 /* PipeWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B51FAA4B0574220FC613BA61 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					6777A32A6FDD6BCCA1AC670F = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 01CB8267943C5C211984A8C7 /* Build configuration list for PBXProject "PipeWatch" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = B7501F745B61E0422E6F9AF0;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6777A32A6FDD6BCCA1AC670F /* PipeWatch */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B0BC897E8572545AB3364B26 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				85CD77449DBF252E89A613AF /* AppState.swift in Sources */,
+				3CA868D31A688AAC8BF8BA1B /* GitLabProject.swift in Sources */,
+				977EBB2F4DAF95A519DCC82E /* GitLabService.swift in Sources */,
+				50C29ADE76566223D1ED2481 /* KeychainHelper.swift in Sources */,
+				F103D298CD6935FE33586A94 /* NotificationManager.swift in Sources */,
+				BF29FCD23C7EF88654FD0685 /* PipeWatchApp.swift in Sources */,
+				06A9B35243B5850C515B5E39 /* Pipeline.swift in Sources */,
+				A670E151EE6685A6C7910F39 /* PipelineListView.swift in Sources */,
+				F6CDFF361BB7E58A3EE92F99 /* PipelineMonitor.swift in Sources */,
+				B0A42FBAA5922B10AAD8CB41 /* PipelineRowView.swift in Sources */,
+				780129DAD9EA1463A84B5BB5 /* SettingsView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		2BA21394FEA0A3831DFEB920 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		50FCED0F7996F7112C2A480F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		AD6AD79AE1894648B97BFA63 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = YES;
+				CODE_SIGNING_REQUIRED = YES;
+				CODE_SIGN_ENTITLEMENTS = PipeWatch.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ai.pipewatch.app;
+				PRODUCT_NAME = PipeWatch;
+				SDKROOT = macosx;
+				SWIFT_STRICT_CONCURRENCY = complete;
+			};
+			name = Release;
+		};
+		CF263B0D21DEBE223F49B736 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = YES;
+				CODE_SIGNING_REQUIRED = YES;
+				CODE_SIGN_ENTITLEMENTS = PipeWatch.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ai.pipewatch.app;
+				PRODUCT_NAME = PipeWatch;
+				SDKROOT = macosx;
+				SWIFT_STRICT_CONCURRENCY = complete;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		01CB8267943C5C211984A8C7 /* Build configuration list for PBXProject "PipeWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2BA21394FEA0A3831DFEB920 /* Debug */,
+				50FCED0F7996F7112C2A480F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		803FE95137126B4BE9FC4157 /* Build configuration list for PBXNativeTarget "PipeWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CF263B0D21DEBE223F49B736 /* Debug */,
+				AD6AD79AE1894648B97BFA63 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B51FAA4B0574220FC613BA61 /* Project object */;
+}
