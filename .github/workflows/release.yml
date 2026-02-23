@@ -2,7 +2,7 @@ name: Release
 
 on:
   push:
-    tags: ["v*"]
+    branches: [main]
 
 permissions:
   contents: write
@@ -12,19 +12,35 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Determine next version
+        id: version
+        run: |
+          LATEST=$(git tag -l 'v*' --sort=-v:refname | head -1)
+          if [ -z "$LATEST" ]; then
+            NEXT="1.0.0"
+          else
+            IFS='.' read -r MAJOR MINOR PATCH <<< "${LATEST#v}"
+            NEXT="${MAJOR}.${MINOR}.$((PATCH + 1))"
+          fi
+          echo "tag=v${NEXT}" >> "$GITHUB_OUTPUT"
+          echo "version=${NEXT}" >> "$GITHUB_OUTPUT"
 
       - name: Install xcodegen
         run: brew install xcodegen
 
-      - name: Inject version from tag
-        run: |
-          VERSION="${GITHUB_REF_NAME#v}"
-          sed -i '' "s/MARKETING_VERSION: .*/MARKETING_VERSION: \"$VERSION\"/" project.yml
-
       - name: Build
-        run: ./build.sh Release --dist
+        run: |
+          sed -i '' "s/MARKETING_VERSION: .*/MARKETING_VERSION: \"${{ steps.version.outputs.version }}\"/" project.yml
+          ./build.sh Release --dist
 
-      - name: Create GitHub Release
+      - name: Create tag and release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" dist/PipeWatch-*.zip --generate-notes
+        run: |
+          git tag "${{ steps.version.outputs.tag }}"
+          git push origin "${{ steps.version.outputs.tag }}"
+          gh release create "${{ steps.version.outputs.tag }}" dist/PipeWatch-*.zip --generate-notes

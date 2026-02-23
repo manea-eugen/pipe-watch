@@ -23,6 +23,18 @@ cd pipe-watch
 ./build.sh Debug --run
 ```
 
+## Releases
+
+Every push to `main` automatically creates a new release with an auto-incremented patch version (`v1.0.0` → `v1.0.1` → `v1.0.2`).
+
+To bump the major or minor version, create a tag manually:
+
+```bash
+git tag v2.0.0 && git push --tags
+```
+
+Subsequent pushes will continue from there (`v2.0.1`, `v2.0.2`, ...).
+
 ## License
 
 [Unlicense](LICENSE)
