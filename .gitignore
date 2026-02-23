@@ -19,5 +19,8 @@ xcuserdata/
 .build/
 Packages/
 
+# Distribution
+dist/
+
 # macOS
 .DS_Store

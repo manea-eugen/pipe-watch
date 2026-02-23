@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		06A9B35243B5850C515B5E39 /* Pipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = B023F573A8749EFBBD5982A8 /* Pipeline.swift */; };
+		2D4AF8106C48187F577EBA86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D67C78B13C8BDDC9B1DD5B53 /* Assets.xcassets */; };
 		3CA868D31A688AAC8BF8BA1B /* GitLabProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C0FF60F6DC3216B63D7487 /* GitLabProject.swift */; };
 		50C29ADE76566223D1ED2481 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CC54D36E0DACE2F7E3551 /* KeychainHelper.swift */; };
 		780129DAD9EA1463A84B5BB5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA38957BA6C71D1BDE011D3 /* SettingsView.swift */; };
@@ -30,6 +31,7 @@
 		B023F573A8749EFBBD5982A8 /* Pipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pipeline.swift; sourceTree = "<group>"; };
 		C54EC79ECC94755107378082 /* PipeWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PipeWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE5BE7264AB376EC3B48CB11 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		D67C78B13C8BDDC9B1DD5B53 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E718B19031B68FABEDEE6327 /* GitLabService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitLabService.swift; sourceTree = "<group>"; };
 		F8330ACCC2FC3B2B0D807B62 /* PipelineListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineListView.swift; sourceTree = "<group>"; };
 		FFA38957BA6C71D1BDE011D3 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -76,6 +78,7 @@
 		B7501F745B61E0422E6F9AF0 = {
 			isa = PBXGroup;
 			children = (
+				D67C78B13C8BDDC9B1DD5B53 /* Assets.xcassets */,
 				1D90076EE9527A7018D09AE8 /* PipeWatch */,
 				7C39509811D81A785D784A46 /* Products */,
 			);
@@ -118,6 +121,7 @@
 			buildConfigurationList = 803FE95137126B4BE9FC4157 /* Build configuration list for PBXNativeTarget "PipeWatch" */;
 			buildPhases = (
 				B0BC897E8572545AB3364B26 /* Sources */,
+				2050C4189C7AFCCFD560968E /* Resources */,
 			);
 			buildRules = (
 			);
@@ -140,7 +144,7 @@
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					6777A32A6FDD6BCCA1AC670F = {
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -162,6 +166,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2050C4189C7AFCCFD560968E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2D4AF8106C48187F577EBA86 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B0BC897E8572545AB3364B26 /* Sources */ = {
@@ -310,11 +325,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGNING_ALLOWED = YES;
-				CODE_SIGNING_REQUIRED = YES;
-				CODE_SIGN_ENTITLEMENTS = PipeWatch.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -335,11 +347,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGNING_ALLOWED = YES;
-				CODE_SIGNING_REQUIRED = YES;
-				CODE_SIGN_ENTITLEMENTS = PipeWatch.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = NO;
