@@ -7,23 +7,31 @@ struct PipeWatchApp: App {
 
     var body: some Scene {
         MenuBarExtra {
-            menuContent
+            MenuContentView(
+                appState: appDelegate.appState,
+                onRefresh: { appDelegate.monitor.pollNow() },
+                onRestart: { appDelegate.monitor.restart() }
+            )
         } label: {
             Label("Pipelines", systemImage: appDelegate.appState.menuBarIcon)
         }
         .menuBarExtraStyle(.window)
     }
 
-    @ViewBuilder
-    private var menuContent: some View {
-        if appDelegate.appState.showingSettings {
-            SettingsView(appState: appDelegate.appState) {
-                appDelegate.monitor.restart()
-            }
+}
+
+// MARK: - Menu Content
+
+private struct MenuContentView: View {
+    let appState: AppState
+    let onRefresh: () -> Void
+    let onRestart: () -> Void
+
+    var body: some View {
+        if appState.showingSettings {
+            SettingsView(appState: appState, onSave: onRestart)
         } else {
-            PipelineListView(appState: appDelegate.appState) {
-                appDelegate.monitor.pollNow()
-            }
+            PipelineListView(appState: appState, onRefresh: onRefresh)
         }
     }
 }

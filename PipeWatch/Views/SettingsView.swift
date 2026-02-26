@@ -117,6 +117,10 @@ struct SettingsView: View {
 
                 // Save button
                 HStack {
+                    Text("v\(Bundle.main.shortVersionString)")
+                        .font(.system(size: 10))
+                        .foregroundStyle(.quaternary)
+
                     Spacer()
 
                     if saved {
@@ -148,5 +152,11 @@ struct SettingsView: View {
             tokenInput = appState.token
             instanceInput = appState.gitlabInstanceURL
         }
+    }
+}
+
+private extension Bundle {
+    var shortVersionString: String {
+        infoDictionary?["CFBundleShortVersionString"] as? String ?? "?"
     }
 }
