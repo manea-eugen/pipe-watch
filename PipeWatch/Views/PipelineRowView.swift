@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PipelineRowView: View {
     let tracked: TrackedPipeline
+    var showBranch: Bool = false
 
     var body: some View {
         HStack(spacing: 8) {
@@ -13,29 +14,57 @@ struct PipelineRowView: View {
 
             // Pipeline info
             VStack(alignment: .leading, spacing: 2) {
-                Text(tracked.projectName)
-                    .font(.system(size: 12, weight: .semibold))
-                    .lineLimit(1)
+                HStack(alignment: .top, spacing: 6) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(tracked.projectName)
+                            .font(.system(size: 12, weight: .semibold))
+                            .lineLimit(1)
 
-                HStack(spacing: 6) {
-                    // Branch
-                    Label(tracked.pipeline.ref, systemImage: "arrow.triangle.branch")
-                        .font(.system(size: 11))
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
+                        if showBranch {
+                            Label(tracked.pipeline.ref, systemImage: "arrow.triangle.branch")
+                                .font(.system(size: 11))
+                                .foregroundStyle(.secondary)
+                                .lineLimit(1)
+                        }
+                    }
 
                     Spacer()
 
-                    // Duration
-                    Text(tracked.pipeline.durationText)
-                        .font(.system(size: 10, design: .monospaced))
-                        .foregroundStyle(.tertiary)
+                    VStack(alignment: .trailing, spacing: 1) {
+                        if tracked.pipeline.duration != nil {
+                            Text(tracked.pipeline.durationText)
+                                .font(.system(size: 10, design: .monospaced))
+                                .foregroundStyle(.tertiary)
+                        }
 
-                    // Time ago
-                    if let updated = tracked.pipeline.updatedAt {
-                        Text(timeAgo(updated))
-                            .font(.system(size: 10))
-                            .foregroundStyle(.tertiary)
+                        if let updated = tracked.pipeline.updatedAt {
+                            Text(timeAgo(updated))
+                                .font(.system(size: 9))
+                                .foregroundStyle(.quaternary)
+                        }
+                    }
+                }
+
+                if tracked.pipeline.status.isActive, let progress = tracked.progress {
+                    HStack(spacing: 6) {
+                        GeometryReader { geo in
+                            Capsule()
+                                .fill(color(for: tracked.pipeline.status).opacity(0.15))
+                                .frame(height: 2)
+                                .overlay(alignment: .leading) {
+                                    Capsule()
+                                        .fill(color(for: tracked.pipeline.status).opacity(0.5))
+                                        .frame(width: geo.size.width * progress, height: 2)
+                                }
+                        }
+                        .frame(height: 2)
+
+                        if let eta = tracked.etaText {
+                            Text(eta)
+                                .font(.system(size: 9))
+                                .foregroundStyle(.secondary)
+                                .fixedSize()
+                        }
                     }
                 }
 

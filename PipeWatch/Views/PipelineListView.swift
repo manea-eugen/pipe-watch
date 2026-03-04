@@ -69,7 +69,7 @@ struct PipelineListView: View {
         ScrollView {
             LazyVStack(spacing: 0) {
                 ForEach(sortedPipelines) { tracked in
-                    PipelineRowView(tracked: tracked)
+                    PipelineRowView(tracked: tracked, showBranch: appState.showBranch)
                     if tracked.id != sortedPipelines.last?.id {
                         Divider()
                             .padding(.leading, 34)

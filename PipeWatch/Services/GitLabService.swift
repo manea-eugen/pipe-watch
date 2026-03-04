@@ -129,6 +129,25 @@ actor GitLabService {
         return pipelines.first
     }
 
+    func fetchLastSuccessfulPipeline(
+        projectID: Int,
+        ref: String
+    ) async throws -> Pipeline? {
+        let queryItems = [
+            URLQueryItem(name: "ref", value: ref),
+            URLQueryItem(name: "status", value: "success"),
+            URLQueryItem(name: "per_page", value: "1"),
+            URLQueryItem(name: "order_by", value: "id"),
+            URLQueryItem(name: "sort", value: "desc"),
+        ]
+
+        let pipelines: [Pipeline] = try await request(
+            path: "/api/v4/projects/\(projectID)/pipelines",
+            queryItems: queryItems
+        )
+        return pipelines.first
+    }
+
     // MARK: - Generic Request
 
     private func request<T: Decodable>(

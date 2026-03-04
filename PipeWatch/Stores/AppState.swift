@@ -23,6 +23,10 @@ final class AppState {
         didSet { UserDefaults.standard.set(notifyOnFailure, forKey: "notifyOnFailure") }
     }
 
+    var showBranch: Bool {
+        didSet { UserDefaults.standard.set(showBranch, forKey: "showBranch") }
+    }
+
     var launchAtLogin: Bool {
         didSet {
             do {
@@ -117,6 +121,7 @@ final class AppState {
         self.pollingInterval = defaults.double(forKey: "pollingInterval").nonZero ?? 30.0
         self.notifyOnSuccess = defaults.object(forKey: "notifyOnSuccess") as? Bool ?? true
         self.notifyOnFailure = defaults.object(forKey: "notifyOnFailure") as? Bool ?? true
+        self.showBranch = defaults.object(forKey: "showBranch") as? Bool ?? false
         self.launchAtLogin = SMAppService.mainApp.status == .enabled
     }
 }

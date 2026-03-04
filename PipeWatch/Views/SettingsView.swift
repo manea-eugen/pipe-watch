@@ -101,6 +101,18 @@ struct SettingsView: View {
                         .controlSize(.small)
                 }
 
+                // Display
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Display")
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundStyle(.secondary)
+
+                    Toggle("Show branch name", isOn: $appState.showBranch)
+                        .font(.system(size: 12))
+                        .toggleStyle(.switch)
+                        .controlSize(.small)
+                }
+
                 // Launch at login
                 VStack(alignment: .leading, spacing: 6) {
                     Text("System")

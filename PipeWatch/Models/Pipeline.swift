@@ -106,6 +106,7 @@ struct Pipeline: Codable, Identifiable, Sendable, Hashable {
     let updatedAt: Date?
     let startedAt: Date?
     let finishedAt: Date?
+    let apiDuration: Double?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -120,16 +121,25 @@ struct Pipeline: Codable, Identifiable, Sendable, Hashable {
         case updatedAt = "updated_at"
         case startedAt = "started_at"
         case finishedAt = "finished_at"
+        case apiDuration = "duration"
     }
 
     var shortSHA: String {
         String(sha.prefix(8))
     }
 
+    /// Best-effort duration: prefer the API field, fall back to date math.
     var duration: TimeInterval? {
+        if let apiDuration { return apiDuration }
         guard let start = startedAt else { return nil }
         let end = finishedAt ?? Date()
         return end.timeIntervalSince(start)
+    }
+
+    /// Elapsed time since the pipeline started (or was created).
+    var elapsed: TimeInterval? {
+        guard let start = startedAt ?? createdAt else { return nil }
+        return Date().timeIntervalSince(start)
     }
 
     var durationText: String {
@@ -166,8 +176,43 @@ struct TrackedPipeline: Identifiable, Sendable, Hashable {
     var failedJob: PipelineJob?
     var retryCount: Int = 0
     var manualJobs: [PipelineJob] = []
+    var totalJobs: Int = 0
+    var finishedJobs: Int = 0
+    var lastSuccessDuration: TimeInterval?
 
     var id: Int { pipeline.id }
+
+    /// Fraction of jobs completed (0.0 – 1.0), nil when no job data available.
+    var progress: Double? {
+        guard totalJobs > 0 else { return nil }
+        return Double(finishedJobs) / Double(totalJobs)
+    }
+
+    /// Estimated seconds remaining. Prefers last successful pipeline duration as
+    /// baseline, falls back to progress-based extrapolation.
+    var estimatedRemaining: TimeInterval? {
+        guard let elapsed = pipeline.elapsed, elapsed > 0 else { return nil }
+
+        if let baseline = lastSuccessDuration {
+            let remaining = baseline - elapsed
+            return remaining > 0 ? remaining : nil
+        }
+
+        guard let progress, progress > 0.05 else { return nil }
+        let remaining = (elapsed / progress) - elapsed
+        return remaining > 0 ? remaining : nil
+    }
+
+    /// Human-readable ETA string, e.g. "~3m 12s left"
+    var etaText: String? {
+        guard let remaining = estimatedRemaining else { return nil }
+        let minutes = Int(remaining) / 60
+        let seconds = Int(remaining) % 60
+        if minutes > 0 {
+            return "~\(minutes)m \(seconds)s left"
+        }
+        return "~\(seconds)s left"
+    }
 
     /// True when the pipeline looks "success" but has pending manual actions.
     var isWaitingForManual: Bool {

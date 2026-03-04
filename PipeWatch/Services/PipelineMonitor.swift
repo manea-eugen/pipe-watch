@@ -10,6 +10,9 @@ final class PipelineMonitor {
     /// Tracks previously known pipeline statuses for diffing
     private var knownStatuses: [Int: PipelineStatus] = [:]
 
+    /// Caches last successful pipeline duration per "projectID/ref"
+    private var durationCache: [String: TimeInterval] = [:]
+
     init(appState: AppState, notificationManager: NotificationManager) {
         self.appState = appState
         self.notificationManager = notificationManager
@@ -33,6 +36,7 @@ final class PipelineMonitor {
     func restart() {
         stop()
         knownStatuses.removeAll()
+        durationCache.removeAll()
         start()
     }
 
@@ -208,19 +212,52 @@ final class PipelineMonitor {
                             }
                         }
 
-                        // Detect manual jobs (pipeline may report "success" but still have pending manual actions)
                         let manualJobs = jobs.filter { $0.status == .manual }
                         if !manualJobs.isEmpty {
                             allTracked[idx].manualJobs = manualJobs
+                        }
+
+                        allTracked[idx].totalJobs = jobs.count
+                        allTracked[idx].finishedJobs = jobs.filter { $0.status.isTerminal }.count
+                    }
+                }
+            }
+
+            // 6. Fetch last successful pipeline duration for active pipelines (ETA)
+            let activePipelines = allTracked.enumerated().filter { $0.element.pipeline.status.isActive }
+            if !activePipelines.isEmpty {
+                await withTaskGroup(of: (Int, TimeInterval?).self) { group in
+                    for (idx, tracked) in activePipelines {
+                        let cacheKey = "\(tracked.projectID)/\(tracked.pipeline.ref)"
+
+                        if let cached = durationCache[cacheKey] {
+                            allTracked[idx].lastSuccessDuration = cached
+                            continue
+                        }
+
+                        group.addTask {
+                            let p = try? await service.fetchLastSuccessfulPipeline(
+                                projectID: tracked.projectID,
+                                ref: tracked.pipeline.ref
+                            )
+                            return (idx, p?.apiDuration ?? p?.duration)
+                        }
+                    }
+                    for await (idx, duration) in group {
+                        let tracked = allTracked[idx]
+                        let cacheKey = "\(tracked.projectID)/\(tracked.pipeline.ref)"
+                        allTracked[idx].lastSuccessDuration = duration
+                        if let duration {
+                            durationCache[cacheKey] = duration
                         }
                     }
                 }
             }
 
-            // 6. Sort by newest pipeline first (highest ID = most recent)
+            // 7. Sort by newest pipeline first (highest ID = most recent)
             allTracked.sort { $0.pipeline.id > $1.pipeline.id }
 
-            // 7. Detect state transitions and notify
+            // 8. Detect state transitions and notify
             for tracked in allTracked {
                 let pid = tracked.pipeline.id
                 let newStatus = tracked.pipeline.status
@@ -233,11 +270,11 @@ final class PipelineMonitor {
                 knownStatuses[pid] = newStatus
             }
 
-            // 8. Clean up old entries from knownStatuses
+            // 9. Clean up old entries from knownStatuses
             let activeIDs = Set(allTracked.map(\.pipeline.id))
             knownStatuses = knownStatuses.filter { activeIDs.contains($0.key) }
 
-            // 9. Update state
+            // 10. Update state
             appState.trackedPipelines = allTracked
             appState.isConnected = true
             appState.lastError = nil
