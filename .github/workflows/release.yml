@@ -37,10 +37,27 @@ jobs:
           sed -i '' "s/MARKETING_VERSION: .*/MARKETING_VERSION: \"${{ steps.version.outputs.version }}\"/" project.yml
           ./build.sh Release --dist
 
+      - name: Build release notes
+        id: notes
+        run: |
+          LATEST=$(git tag -l 'v*' --sort=-v:refname | head -1)
+          if [ -n "$LATEST" ]; then
+            NOTES=$(git log "${LATEST}..HEAD" --pretty=format:"- %s" --no-merges)
+          else
+            NOTES=$(git log --pretty=format:"- %s" --no-merges)
+          fi
+          {
+            echo "body<<EOF"
+            echo "$NOTES"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
       - name: Create tag and release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           git tag "${{ steps.version.outputs.tag }}"
           git push origin "${{ steps.version.outputs.tag }}"
-          gh release create "${{ steps.version.outputs.tag }}" dist/PipeWatch-*.zip --generate-notes
+          gh release create "${{ steps.version.outputs.tag }}" dist/PipeWatch-*.zip \
+            --title "${{ steps.version.outputs.tag }}" \
+            --notes "${{ steps.notes.outputs.body }}"
