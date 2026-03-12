@@ -264,7 +264,7 @@ final class PipelineMonitor {
 
                 if let oldStatus = knownStatuses[pid], oldStatus != newStatus,
                    newStatus.isTerminal || newStatus == .manual {
-                    sendNotification(for: tracked, from: oldStatus, to: newStatus)
+                    await sendNotification(for: tracked, from: oldStatus, to: newStatus)
                 }
 
                 knownStatuses[pid] = newStatus
@@ -289,28 +289,28 @@ final class PipelineMonitor {
 
     // MARK: - Notifications
 
-    private func sendNotification(for tracked: TrackedPipeline, from oldStatus: PipelineStatus, to newStatus: PipelineStatus) {
+    private func sendNotification(for tracked: TrackedPipeline, from oldStatus: PipelineStatus, to newStatus: PipelineStatus) async {
         switch newStatus {
         case .success where appState.notifyOnSuccess:
-            notificationManager.send(
+            await notificationManager.send(
                 title: "\(tracked.projectName)",
                 body: "Pipeline #\(tracked.pipeline.id) passed on \(tracked.pipeline.ref)",
                 url: tracked.pipeline.webURL
             )
         case .failed where appState.notifyOnFailure:
-            notificationManager.send(
+            await notificationManager.send(
                 title: "\(tracked.projectName)",
                 body: "Pipeline #\(tracked.pipeline.id) failed on \(tracked.pipeline.ref)",
                 url: tracked.pipeline.webURL
             )
         case .canceled:
-            notificationManager.send(
+            await notificationManager.send(
                 title: "\(tracked.projectName)",
                 body: "Pipeline #\(tracked.pipeline.id) was canceled on \(tracked.pipeline.ref)",
                 url: tracked.pipeline.webURL
             )
         case .manual:
-            notificationManager.send(
+            await notificationManager.send(
                 title: "\(tracked.projectName)",
                 body: "Pipeline on \(tracked.pipeline.ref) is waiting for a manual action",
                 url: tracked.pipeline.webURL

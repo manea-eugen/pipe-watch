@@ -48,7 +48,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     )
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        notificationManager.requestPermission()
+        Task { await notificationManager.requestPermission() }
         monitor.start()
         promptLaunchAtLoginIfNeeded()
     }

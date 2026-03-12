@@ -12,15 +12,15 @@ final class NotificationManager: NSObject {
         registerCategories()
     }
 
-    func requestPermission() {
-        center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-            if let error {
-                print("Notification permission error: \(error.localizedDescription)")
-            }
+    func requestPermission() async {
+        do {
+            try await center.requestAuthorization(options: [.alert, .sound, .badge])
+        } catch {
+            print("Notification permission error: \(error.localizedDescription)")
         }
     }
 
-    func send(title: String, body: String, url: String? = nil) {
+    func send(title: String, body: String, url: String? = nil) async {
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
@@ -37,10 +37,10 @@ final class NotificationManager: NSObject {
             trigger: nil // deliver immediately
         )
 
-        center.add(request) { error in
-            if let error {
-                print("Failed to deliver notification: \(error.localizedDescription)")
-            }
+        do {
+            try await center.add(request)
+        } catch {
+            print("Failed to deliver notification: \(error.localizedDescription)")
         }
     }
 
