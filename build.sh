@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -eo pipefail
 
 PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SCHEME="PipeWatch"
@@ -15,12 +15,12 @@ xcodebuild \
   -project PipeWatch.xcodeproj \
   -scheme "$SCHEME" \
   -configuration "$CONFIG" \
-  build 2>&1 | grep -E '(error:|warning:(?!.*appintentsmetadataprocessor)|BUILD)' || true
+  build
 
 APP_PATH=$(find ~/Library/Developer/Xcode/DerivedData/PipeWatch-*/Build/Products/"$CONFIG" -name "PipeWatch.app" -maxdepth 1 2>/dev/null | head -1)
 
-if [ -z "$APP_PATH" ]; then
-  echo "==> Build failed."
+if [ ! -f "$APP_PATH/Contents/MacOS/PipeWatch" ]; then
+  echo "==> Build failed: binary not found."
   exit 1
 fi
 
